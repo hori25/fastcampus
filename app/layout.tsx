@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import SmoothScroll from '@/components/SmoothScroll';
@@ -9,7 +8,7 @@ const inter = Inter({
   display: 'swap'
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Byredo Concept Landing',
   description:
     'A Byredo-inspired immersive landing experience built with Next.js and Tailwind CSS.'
