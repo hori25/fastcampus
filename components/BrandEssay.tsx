@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useId } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -60,6 +60,7 @@ export default function BrandEssay() {
     return () => ctx.revert();
   }, []);
 
+
   return (
     <section ref={sectionRef} className="relative w-full bg-white">
       <div className="section-shell">
@@ -88,21 +89,13 @@ export default function BrandEssay() {
           </div>
 
           {/* Large Text - Top (Center aligned) */}
-          <div className="pointer-events-none absolute left-1/2 top-[20px] z-50 -translate-x-1/2">
-            <h3 className="scroll-text text-center text-[83px] font-bold leading-[80px] tracking-[-6px] text-black" data-speed="1.0">
-              WE CREATE
-              <br />
-              UNSEEN DESIGN
-            </h3>
+          <div className="scroll-text absolute left-1/2 top-[20px] z-50 -translate-x-1/2 pointer-events-auto" data-speed="1.0">
+            <HalftoneTitle lines={['WE CREATE', 'UNSEEN DESIGN']} align="center" />
           </div>
 
-          {/* Large Text - Bottom (Right aligned from layout) */}
-          <div className="pointer-events-none absolute right-0 top-[200px] z-50">
-            <h3 className="scroll-text text-right text-[83px] font-bold leading-[80px] tracking-[-6px] text-black" data-speed="1.0">
-              WITH A TASTE
-              <br />
-              OF DEJA-VU.
-            </h3>
+          {/* Large Text - Bottom (Right aligned) */}
+          <div className="scroll-text absolute right-0 top-[200px] z-50 pointer-events-auto" data-speed="1.0">
+            <HalftoneTitle lines={['WITH A TASTE', 'OF DEJA-VU.']} align="right" />
           </div>
 
           {/* Right Text Content - Aligned with left image bottom */}
@@ -153,5 +146,42 @@ export default function BrandEssay() {
         </div>
       </div>
     </section>
+  );
+}
+
+type HalftoneTitleProps = {
+  lines: string[];
+  align?: 'center' | 'right';
+};
+
+function HalftoneTitle({ lines, align = 'center' }: HalftoneTitleProps) {
+  const anchor = align === 'center' ? 'middle' : 'end';
+  const xPos = align === 'center' ? 600 : 1200;
+
+  return (
+    <div className="inline-flex">
+      <svg
+        viewBox="0 0 1200 230"
+        className="w-[1000px] max-w-[95vw]"
+        role="img"
+        aria-label={lines.join(' ')}
+      >
+        {lines.map((line, index) => (
+          <text
+            key={line}
+            x={xPos}
+            y={index * 100 + 105}
+            textAnchor={anchor}
+            fontFamily="sk-modernist, sans-serif"
+            fontSize="104"
+            fontWeight="700"
+            letterSpacing="-6"
+            fill="#000"
+          >
+            {line}
+          </text>
+        ))}
+      </svg>
+    </div>
   );
 }
