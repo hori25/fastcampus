@@ -3,6 +3,7 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -76,32 +77,40 @@ export default function ShopPage() {
           </h1>
           <div ref={gridRef} className="mt-10 grid gap-x-[10px] gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {products.map((product) => (
-              <article key={product.id} className="flex flex-col gap-3">
-                <div className="relative aspect-square bg-[#f7f6f3]">
-                  <Image src={product.image} alt={product.title} fill className="object-cover" />
-                  <button className="absolute right-4 top-4 h-8 w-8 bg-white/80 backdrop-blur">
-                    <Image src="/assets/shop/cart.png" width={14} height={14} alt="Add to cart" className="mx-auto mt-[9px]" />
-                  </button>
-                </div>
-                <div className="pt-3 text-[11px] uppercase tracking-[0.4em] text-black/60">
+              <Link key={product.id} href="/shop/1">
+                <article className="flex cursor-pointer flex-col gap-3 transition hover:opacity-80">
+                  <div className="relative aspect-square bg-[#f7f6f3]">
+                    <Image src={product.image} alt={product.title} fill className="object-cover" />
+                    <button 
+                      className="absolute right-4 top-4 h-8 w-8 bg-white/80 backdrop-blur"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <Image src="/assets/shop/cart.png" width={14} height={14} alt="Add to cart" className="mx-auto mt-[9px]" />
+                    </button>
+                  </div>
+                  <div className="pt-3 text-[11px] uppercase tracking-[0.4em] text-black/60">
+                    <div className="flex items-center justify-between">
+                      <span>{product.category}</span>
+                      <span>{product.id}</span>
+                    </div>
+                    {product.meta && (
+                      <p className="mt-1 text-[10px] tracking-[0.3em] text-black/45">{product.meta}</p>
+                    )}
+                  </div>
                   <div className="flex items-center justify-between">
-                    <span>{product.category}</span>
-                    <span>{product.id}</span>
+                    <div className="flex flex-col">
+                      <span className="text-[13px] uppercase tracking-[0.35em] text-black">{product.title}</span>
+                      <span className="text-[12px] tracking-[0.35em] text-black/60">{product.price}</span>
+                    </div>
+                    <button 
+                      className="p-3 transition hover:opacity-70"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <Image src="/assets/shop/mark.png" width={16} height={16} alt="Bookmark" />
+                    </button>
                   </div>
-                  {product.meta && (
-                    <p className="mt-1 text-[10px] tracking-[0.3em] text-black/45">{product.meta}</p>
-                  )}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="text-[13px] uppercase tracking-[0.35em] text-black">{product.title}</span>
-                    <span className="text-[12px] tracking-[0.35em] text-black/60">{product.price}</span>
-                  </div>
-                  <button className="p-3 transition hover:opacity-70">
-                    <Image src="/assets/shop/mark.png" width={16} height={16} alt="Bookmark" />
-                  </button>
-                </div>
-              </article>
+                </article>
+              </Link>
             ))}
           </div>
         </section>
