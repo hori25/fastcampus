@@ -40,9 +40,9 @@ const maskStretchVariants = {
     scaleX: 1,
     transition: {
       duration: 0.9,
-      ease: [0.22, 0.61, 0.36, 1],
-      clipPath: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] },
-      scaleX: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] },
+      ease: [0.22, 0.61, 0.36, 1] as any,
+      clipPath: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] as any },
+      scaleX: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] as any },
     },
   },
 };

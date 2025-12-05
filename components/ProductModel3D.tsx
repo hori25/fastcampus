@@ -149,17 +149,17 @@ export default function ProductModel3D() {
         if (capMesh) {
           // 원래 위치를 저장 (스케일 적용 전)
           const capWorldPos = new THREE.Vector3();
-          capMesh.getWorldPosition(capWorldPos);
+          (capMesh as THREE.Object3D).getWorldPosition(capWorldPos);
           
           capRef.current = capMesh;
-          capOriginalY.current = capMesh.position.y;
-          capOriginalRotY.current = capMesh.rotation.y;
+          capOriginalY.current = (capMesh as THREE.Object3D).position.y;
+          capOriginalRotY.current = (capMesh as THREE.Object3D).rotation.y;
           
           console.log('========================================');
           console.log('✅✅✅ 뚜껑 최종 연결 완료!');
           console.log('   이름:', (capMesh as any).name);
           console.log('   타입:', (capMesh as any).type);
-          console.log('   로컬 Y:', capMesh.position.y);
+          console.log('   로컬 Y:', (capMesh as THREE.Object3D).position.y);
           console.log('   월드 Y:', capWorldPos.y);
           console.log('========================================');
         } else {
