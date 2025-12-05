@@ -191,7 +191,7 @@ export default function Newsletter() {
           className="center-content absolute left-1/2 top-[400px] z-20 flex -translate-x-1/2 flex-col items-center gap-[40px]"
         >
           {/* 제목 */}
-          <h2 className="whitespace-nowrap text-center font-['sk-modernist'] text-[68.8px] font-medium leading-[60px] tracking-[-3.75px] text-[#231f20]">
+          <h2 className="whitespace-nowrap text-center font-['sk-modernist'] text-[68.8px] font-extrabold leading-[60px] tracking-[-3.75px] text-[#231f20]">
             NEWSLETTER
           </h2>
 

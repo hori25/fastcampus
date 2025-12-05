@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,33 +11,30 @@ const products = [
   {
     title: 'SUNDAZED',
     detail: 'STORAGES',
-    image: '/assets/image1.png',
-    hoverImage: '/assets/image1_hover.png',
-    description:
-      'STORAGES: noun. Any kind of a collection that lets you show off the objects that inspire you - and keep out of sight is one that don\'t. If your storage solution looks good, all the better. So long Billy.'
+    price: '€210',
+    image: '/assets/image1.png'
   },
   {
     title: 'MOJAVE GHOST',
     detail: 'EAU DE PARFUM',
-    image: '/assets/image2.png',
-    hoverImage: '/assets/image2.png'
+    price: '€210',
+    image: '/assets/image2.png'
   },
   {
     title: 'MOJAVE GHOST',
     detail: 'EXTRAIT DE PARFUM',
-    image: '/assets/image3.png',
-    hoverImage: '/assets/image3.png'
+    price: '€210',
+    image: '/assets/image3.png'
   },
   {
     title: 'MOJAVE GHOST',
     detail: 'EAU DE PARFUM',
-    image: '/assets/image4.png',
-    hoverImage: '/assets/image4.png'
+    price: '€210',
+    image: '/assets/image4.png'
   }
 ];
 
 export default function ProductGrid() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -172,41 +169,24 @@ export default function ProductGrid() {
             <article
               key={product.title + index}
               className="product-card group relative col-span-12 cursor-pointer bg-white sm:col-span-6 xl:col-span-3"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="scroll-image relative w-full overflow-hidden bg-gray-100" style={{ aspectRatio: '3/4' }} data-speed={0.7 + index * 0.1}>
+              <div
+                className="scroll-image relative w-full overflow-hidden bg-gray-100"
+                style={{ aspectRatio: '3/4' }}
+                data-speed={0.7 + index * 0.1}
+              >
                 <Image
-                  src={hoveredIndex === index ? product.hoverImage : product.image}
+                  src={product.image}
                   alt={product.title}
                   fill
-                  className={`object-cover transition-transform duration-700 ease-out ${
-                    hoveredIndex === index ? 'scale-110' : 'scale-100'
-                  }`}
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                
-                {hoveredIndex === index && (
-                  <div className="absolute inset-0 flex flex-col justify-between bg-black/5 p-6">
-                    <div className="animate-slide-down">
-                      <a
-                        href="#"
-                        className="inline-flex items-center gap-1 text-[9px] uppercase tracking-[0.15em] text-black underline"
-                      >
-                        view all storages
-                        <span>→</span>
-                      </a>
-                      <h4 className="mt-2 text-[32px] font-normal uppercase leading-tight tracking-tight text-black">
-                        {product.detail}
-                      </h4>
-                    </div>
-
-                    <div className="animate-slide-up">
-                      <p className="text-[11px] leading-relaxed text-black">
-                        {product.description || `${product.title} - ${product.detail}`}
-                      </p>
-                    </div>
+                <div className="pointer-events-none absolute inset-0 flex items-end opacity-0 transition-all duration-400 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
+                  <div className="w-full px-4 pb-4 text-black">
+                    <p className="text-[13px] uppercase tracking-[0.35em]">{product.title}</p>
+                    <p className="text-[12px] tracking-[0.3em] text-black/70">{product.price}</p>
                   </div>
-                )}
+                </div>
               </div>
             </article>
           ))}

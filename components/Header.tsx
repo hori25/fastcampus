@@ -29,8 +29,8 @@ export default function Header() {
             <a href="/shop" className="transition-opacity hover:opacity-60">
               Shop
             </a>
-            <a href="/collection" className="transition-opacity hover:opacity-60">
-              Collection
+            <a href="/offline-store" className="transition-opacity hover:opacity-60">
+              Offline Store
             </a>
           </nav>
 

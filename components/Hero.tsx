@@ -6,77 +6,73 @@ import { gsap } from 'gsap';
 
 // 좌측 이미지 (아래에서 위로)
 const leftImages = [
-  '/assets/main1_1.png',
-  '/assets/main2_1.png',
+  '/assets/main/main1_1.png',
+  '/assets/main/main_2_1.png',
+  '/assets/main/main_3_1.png',
 ];
 
 // 우측 이미지 (위에서 아래로)
 const rightImages = [
-  '/assets/main_1_2.png',
-  '/assets/main_2_2.png',
+  '/assets/main/main_1_2.png',
+  '/assets/main/main_2_2.png',
+  '/assets/main/main_3_2.png',
 ];
 
 export default function Hero() {
-  const leftSlide1Ref = useRef<HTMLDivElement>(null);
-  const leftSlide2Ref = useRef<HTMLDivElement>(null);
-  const rightSlide1Ref = useRef<HTMLDivElement>(null);
-  const rightSlide2Ref = useRef<HTMLDivElement>(null);
+  const leftSlidesRef = useRef<HTMLDivElement[]>([]);
+  const rightSlidesRef = useRef<HTMLDivElement[]>([]);
   
   const currentSlide = useRef(0);
 
+  const getInitialStyle = (idx: number, isLeft: boolean) => ({
+    transform: `translateY(${idx === 0 ? '0%' : isLeft ? '100%' : '-100%'})`,
+  });
+
   useEffect(() => {
-    // 초기 상태: 두 이미지 모두 같은 위치에 있고, 위에 있는 이미지만 보임
-    gsap.set(leftSlide1Ref.current, { y: '0%' });
-    gsap.set(leftSlide2Ref.current, { y: '0%' });
-    gsap.set(rightSlide1Ref.current, { y: '0%' });
-    gsap.set(rightSlide2Ref.current, { y: '0%' });
+    const total = leftImages.length;
+
+    // 초기 위치 설정 (opacity는 항상 1로 유지해 겹침 보장)
+    leftSlidesRef.current.forEach((el, idx) => {
+      gsap.set(el, { y: idx === 0 ? '0%' : '100%' });
+    });
+    rightSlidesRef.current.forEach((el, idx) => {
+      gsap.set(el, { y: idx === 0 ? '0%' : '-100%' });
+    });
 
     const animateSlide = () => {
-      if (currentSlide.current === 0) {
-        // 슬라이드1이 나가면서 슬라이드2가 드러남
-        const tl = gsap.timeline();
+      const next = (currentSlide.current + 1) % total;
 
-        // 좌측: 슬라이드1이 위로 나감 (슬라이드2는 그 자리에 있음)
-        tl.to(leftSlide1Ref.current, {
-          y: '-100%',
-          duration: 1.2,
-          ease: 'power3.inOut'
-        }, 0);
+      // 다음 슬라이드를 시작 위치로 배치
+      gsap.set(leftSlidesRef.current[next], { y: '100%' });
+      gsap.set(rightSlidesRef.current[next], { y: '-100%' });
 
-        // 우측: 슬라이드1이 아래로 나감 (슬라이드2는 그 자리에 있음)
-        tl.to(rightSlide1Ref.current, {
-          y: '100%',
-          duration: 1.2,
-          ease: 'power3.inOut'
-        }, 0);
+      const tl = gsap.timeline();
 
-        currentSlide.current = 1;
-      } else {
-        // 슬라이드1이 다시 들어오면서 슬라이드2를 덮음
-        const tl = gsap.timeline();
+      // 좌측: 현재 위로 퇴장, 다음이 아래에서 올라옴
+      tl.to(leftSlidesRef.current[currentSlide.current], {
+        y: '-100%',
+        duration: 1.2,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(leftSlidesRef.current[next], {
+        y: '0%',
+        duration: 1.2,
+        ease: 'power3.inOut'
+      }, 0);
 
-        // 좌측: 슬라이드1이 아래에서 올라옴
-        tl.fromTo(leftSlide1Ref.current, 
-          { y: '100%' },
-          {
-            y: '0%',
-            duration: 1.2,
-            ease: 'power3.inOut'
-          }
-        , 0);
+      // 우측: 현재 아래로 퇴장, 다음이 위에서 내려옴
+      tl.to(rightSlidesRef.current[currentSlide.current], {
+        y: '100%',
+        duration: 1.2,
+        ease: 'power3.inOut'
+      }, 0);
+      tl.to(rightSlidesRef.current[next], {
+        y: '0%',
+        duration: 1.2,
+        ease: 'power3.inOut'
+      }, 0);
 
-        // 우측: 슬라이드1이 위에서 내려옴
-        tl.fromTo(rightSlide1Ref.current, 
-          { y: '-100%' },
-          {
-            y: '0%',
-            duration: 1.2,
-            ease: 'power3.inOut'
-          }
-        , 0);
-
-        currentSlide.current = 0;
-      }
+      currentSlide.current = next;
     };
 
     const interval = setInterval(animateSlide, 3000);
@@ -89,64 +85,48 @@ export default function Hero() {
       <div className="grid h-full w-full grid-cols-2">
         {/* 좌측 이미지 영역 */}
         <div className="relative h-full w-full overflow-hidden">
-          {/* 슬라이드 2 (아래 레이어 - 항상 제자리) */}
-          <div 
-            ref={leftSlide2Ref}
-            className="absolute inset-0"
-          >
-            <Image
-              src={leftImages[1]}
-              alt="Hero Left 2"
-              fill
-              className="object-cover"
-              sizes="50vw"
-            />
-          </div>
-          {/* 슬라이드 1 (위 레이어 - 움직임) */}
-          <div 
-            ref={leftSlide1Ref}
-            className="absolute inset-0 will-change-transform"
-          >
-            <Image
-              src={leftImages[0]}
-              alt="Hero Left 1"
-              fill
-              className="object-cover"
-              priority
-              sizes="50vw"
-            />
-          </div>
+          {leftImages.map((src, idx) => (
+            <div
+              key={src}
+              ref={(el) => {
+                if (el) leftSlidesRef.current[idx] = el;
+              }}
+              className="absolute inset-0 will-change-transform"
+              style={getInitialStyle(idx, true)}
+            >
+              <Image
+                src={src}
+                alt={`Hero Left ${idx + 1}`}
+                fill
+                className="object-cover"
+                priority={idx === 0}
+                sizes="50vw"
+              />
+            </div>
+          ))}
         </div>
 
         {/* 우측 이미지 영역 */}
         <div className="relative h-full w-full overflow-hidden">
-          {/* 슬라이드 2 (아래 레이어 - 항상 제자리) */}
-          <div 
-            ref={rightSlide2Ref}
-            className="absolute inset-0"
-          >
-            <Image
-              src={rightImages[1]}
-              alt="Hero Right 2"
-              fill
-              className="object-cover"
-              sizes="50vw"
-            />
-          </div>
-          {/* 슬라이드 1 (위 레이어 - 움직임) */}
-          <div 
-            ref={rightSlide1Ref}
-            className="absolute inset-0 will-change-transform"
-          >
-            <Image
-              src={rightImages[0]}
-              alt="Hero Right 1"
-              fill
-              className="object-cover"
-              priority
-              sizes="50vw"
-            />
-          </div>
+          {rightImages.map((src, idx) => (
+            <div
+              key={src}
+              ref={(el) => {
+                if (el) rightSlidesRef.current[idx] = el;
+              }}
+              className="absolute inset-0 will-change-transform"
+              style={getInitialStyle(idx, false)}
+            >
+              <Image
+                src={src}
+                alt={`Hero Right ${idx + 1}`}
+                fill
+                className="object-cover"
+                priority={idx === 0}
+                sizes="50vw"
+              />
+            </div>
+          ))}
         </div>
       </div>
 
