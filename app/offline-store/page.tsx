@@ -13,6 +13,8 @@ type Store = {
   image: string;
 };
 
+const STORE_ADDRESS = "40 Boulevard Haussmann, 75009 Paris, France";
+
 const stores: Store[] = [
   { name: 'DICE AT HELEN OF TROY', category: 'PROJETS', date: 'JAN 6TH, 2023', image: '/assets/offline/offline9.jpg' },
   { name: 'CURB AT STUDIO EVOL', category: 'SHOOTING SESSIONS', date: 'JAN 6TH, 2023', image: '/assets/offline/offline8.jpg' },
@@ -55,6 +57,7 @@ export default function OfflineStorePage() {
     featured: false,
     list: false,
   });
+  const [copied, setCopied] = useState(false);
 
   const titleRef = useRef<HTMLElement>(null);
   const featuredRef = useRef<HTMLElement>(null);
@@ -85,6 +88,18 @@ export default function OfflineStorePage() {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(STORE_ADDRESS);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch (e) {
+      // 클립보드 지원 안 되는 경우를 대비해 상태만 변경
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
+  };
 
   const galleryImages = [
     '/assets/offline/offline5.jpg',
@@ -145,23 +160,72 @@ export default function OfflineStorePage() {
             <div className="grid gap-6 lg:grid-cols-2">
               {/* Google Map */}
               <div
-                className="relative aspect-square overflow-hidden transition-all duration-1000 ease-out"
+                className="flex flex-col gap-4 transition-all duration-1000 ease-out"
                 style={{
                   opacity: isVisible.featured ? 1 : 0,
                   transform: `translateY(${isVisible.featured ? 0 : 50}px)`,
                   transitionDelay: '300ms',
                 }}
               >
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.2091339927547!2d2.3310113!3d48.8738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e3d4f8f9d3b%3A0x8d8e1f5a5f5c5c5c!2sGaleries%20Lafayette%20Paris%20Haussmann!5e0!3m2!1sen!2s!4v1234567890"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="grayscale"
-                />
+                <div className="relative aspect-square overflow-hidden">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.2091339927547!2d2.3310113!3d48.8738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e3d4f8f9d3b%3A0x8d8e1f5a5f5c5c5c!2sGaleries%20Lafayette%20Paris%20Haussmann!5e0!3m2!1sen!2s!4v1234567890"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="grayscale"
+                  />
+                </div>
+
+                {/* Address + Copy */}
+                <div className="flex items-center justify-between rounded-full bg-white/80 px-4 py-3 shadow-sm backdrop-blur">
+                  <div className="flex flex-col">
+                    <span className="text-[11px] uppercase tracking-[0.2em] text-black/40">
+                      Store Address
+                    </span>
+                    <span className="text-[13px] font-medium text-[#1b1b1b]">
+                      {STORE_ADDRESS}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleCopyAddress}
+                    className="ml-4 flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1b1b1b] transition hover:bg-black hover:text-white"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        x="9"
+                        y="9"
+                        width="10"
+                        height="10"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                      <rect
+                        x="5"
+                        y="5"
+                        width="10"
+                        height="10"
+                        rx="2"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        opacity="0.6"
+                      />
+                    </svg>
+                    <span>{copied ? 'copyed!' : 'copy'}</span>
+                  </button>
+                </div>
               </div>
 
               {/* Store Image */}
