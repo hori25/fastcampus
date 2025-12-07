@@ -13,7 +13,8 @@ type Store = {
   image: string;
 };
 
-const STORE_ADDRESS = "40 Boulevard Haussmann, 75009 Paris, France";
+// 오프라인 스토어 더미 주소 (복사용)
+const STORE_ADDRESS = '123 Rue de Demo, 75000 Paris, France';
 
 const stores: Store[] = [
   { name: 'DICE AT HELEN OF TROY', category: 'PROJETS', date: 'JAN 6TH, 2023', image: '/assets/offline/offline9.jpg' },
@@ -160,7 +161,7 @@ export default function OfflineStorePage() {
             <div className="grid gap-6 lg:grid-cols-2">
               {/* Google Map */}
               <div
-                className="flex flex-col gap-4 transition-all duration-1000 ease-out"
+                className="flex flex-col gap-[10px] transition-all duration-1000 ease-out"
                 style={{
                   opacity: isVisible.featured ? 1 : 0,
                   transform: `translateY(${isVisible.featured ? 0 : 50}px)`,
@@ -181,7 +182,7 @@ export default function OfflineStorePage() {
                 </div>
 
                 {/* Address + Copy */}
-                <div className="flex items-center justify-between rounded-full bg-white/80 px-4 py-3 shadow-sm backdrop-blur">
+                <div className="flex items-center justify-between bg-white/80 backdrop-blur">
                   <div className="flex flex-col">
                     <span className="text-[11px] uppercase tracking-[0.2em] text-black/40">
                       Store Address
@@ -194,7 +195,7 @@ export default function OfflineStorePage() {
                   <button
                     type="button"
                     onClick={handleCopyAddress}
-                    className="ml-4 flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1b1b1b] transition hover:bg-black hover:text-white"
+                    className="ml-4 flex items-center gap-2 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#1b1b1b] transition hover:opacity-60"
                   >
                     <svg
                       width="16"
@@ -223,7 +224,7 @@ export default function OfflineStorePage() {
                         opacity="0.6"
                       />
                     </svg>
-                    <span>{copied ? 'copyed!' : 'copy'}</span>
+                    <span>{copied ? 'copied' : 'COPY ADDRESS'}</span>
                   </button>
                 </div>
               </div>

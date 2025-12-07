@@ -375,6 +375,7 @@ export default function ProductModel3D() {
 
     // Softbox key light - 약간 위에서 사선으로 들어오는 메인 광원
     const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
+    // 오른쪽 위에서 사선으로 들어오는 느낌
     keyLight.position.set(4, 7, 3);
     keyLight.castShadow = true;
     keyLight.shadow.mapSize.set(2048, 2048);
@@ -419,12 +420,12 @@ export default function ProductModel3D() {
     // 바닥 그림자용 평면 (실제 외부로 드리우는 그림자)
     const shadowPlaneGeometry = new THREE.PlaneGeometry(16, 16);
     const shadowPlaneMaterial = new THREE.ShadowMaterial({
-      // 사진 촬영 느낌의 아주 부드러운 긴 그림자 (더 더 연하게)
+      // 사진 촬영 느낌의 부드러운 긴 그림자
       opacity: 0.07,
     });
     const shadowPlane = new THREE.Mesh(shadowPlaneGeometry, shadowPlaneMaterial);
     shadowPlane.rotation.x = -Math.PI / 2;
-    // 병이 바닥에 거의 붙어 보이도록 평면을 더 올림
+    // 병이 바닥에 거의 붙어 보이도록 위치 미세 조정
     shadowPlane.position.y = -0.45;
     shadowPlane.receiveShadow = true;
     shadowPlane.name = 'groundShadowPlane';

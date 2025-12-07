@@ -21,18 +21,18 @@ type Product = {
 };
 
 const products: Product[] = [
-  { id: '01', title: 'BLANCHE', category: 'HAIR PERFUME', price: '65 €', image: '/assets/shop/shop_1.png' },
-  { id: '02', title: 'BLANCHE', category: 'HAND CREAM', price: '39 €', image: '/assets/shop/shop_2.png' },
-  { id: '03', title: 'BLANCHE', category: 'RINSE-FREE HAND WASH', price: '30 €', image: '/assets/shop/shop_3.png' },
-  { id: '04', title: 'BLANCHE', category: 'BODY CREAM', price: '67 €', image: '/assets/shop/shop_4.png' },
-  { id: '05', title: 'COIN LAUNDRY', category: 'CANDLES', price: '75 €', image: '/assets/shop/shop_5.png' },
-  { id: '06', title: 'BLANCHE PYJAMA', category: 'APPAREL', price: '280 €', meta: 'XS – XL SIZE', image: '/assets/shop/shop_6.png' },
-  { id: '07', title: 'LE NÉCESSAIRE DE VOYAGE BLANCHE', category: 'EAU DE PARFUM', price: '280 €', meta: 'LIMITED EDITION', image: '/assets/shop/shop_8.png' },
-  { id: '08', title: 'BLANCHE', category: 'BODY MIST', price: '70 €', image: '/assets/shop/shop_7.png' },
-  { id: '09', title: 'BLANCHE', category: 'HAIR PERFUME', price: '65 €', image: '/assets/shop/shop_1.png' },
-  { id: '10', title: 'BLANCHE', category: 'HAND CREAM', price: '39 €', image: '/assets/shop/shop_2.png' },
-  { id: '11', title: 'BLANCHE', category: 'RINSE-FREE HAND WASH', price: '30 €', image: '/assets/shop/shop_3.png' },
-  { id: '12', title: 'BLANCHE', category: 'BODY CREAM', price: '67 €', image: '/assets/shop/shop_4.png' }
+  { id: '01', title: 'BAL D’AFRIQUE EAU DE PARFUM', category: 'HAIR PERFUME', price: '65 €', image: '/assets/shop/shop_1.png' },
+  { id: '02', title: 'BAL D’AFRIQUE HAND CREAM', category: 'HAND CREAM', price: '39 €', image: '/assets/shop/shop_2.png' },
+  { id: '03', title: 'BAL D’AFRIQUE RINSE-FREE WASH', category: 'RINSE-FREE HAND WASH', price: '30 €', image: '/assets/shop/shop_3.png' },
+  { id: '04', title: 'BAL D’AFRIQUE BODY CREAM', category: 'BODY CREAM', price: '67 €', image: '/assets/shop/shop_4.png' },
+  { id: '05', title: 'ROUGE CHAOTIQUE CANDLE', category: 'CANDLES', price: '75 €', image: '/assets/shop/shop_5.png' },
+  { id: '06', title: 'ROUGE CHAOTIQUE PYJAMA SET', category: 'APPAREL', price: '280 €', meta: 'XS – XL SIZE', image: '/assets/shop/shop_6.png' },
+  { id: '07', title: 'ROUGE CHAOTIQUE TRAVEL SET', category: 'EAU DE PARFUM', price: '280 €', meta: 'LIMITED EDITION', image: '/assets/shop/shop_8.png' },
+  { id: '08', title: 'ROUGE CHAOTIQUE BODY MIST', category: 'BODY MIST', price: '70 €', image: '/assets/shop/shop_7.png' },
+  { id: '09', title: 'BAL D’AFRIQUE HAIR PERFUME', category: 'HAIR PERFUME', price: '65 €', image: '/assets/shop/shop_1.png' },
+  { id: '10', title: 'BAL D’AFRIQUE HAND CREAM', category: 'HAND CREAM', price: '39 €', image: '/assets/shop/shop_2.png' },
+  { id: '11', title: 'BAL D’AFRIQUE HAND WASH', category: 'RINSE-FREE HAND WASH', price: '30 €', image: '/assets/shop/shop_3.png' },
+  { id: '12', title: 'BAL D’AFRIQUE BODY CREAM', category: 'BODY CREAM', price: '67 €', image: '/assets/shop/shop_4.png' }
 ];
 
 export default function ShopPage() {
@@ -63,7 +63,7 @@ export default function ShopPage() {
     return rows;
   }, []);
 
-  // 새로 나타나는 카드에만 부드러운 등장 애니메이션 적용
+  // 새로 나타나는 카드에만 부드러운 등장 애니메이션 적용 (초기 위치 세팅)
   useEffect(() => {
     if (!gridRef.current) return;
     const ctx = gsap.context(() => {
@@ -183,8 +183,8 @@ export default function ShopPage() {
                           />
                         </div>
                         <div className="flex flex-col gap-1">
-                          <span className="text-[13px] uppercase tracking-[0.35em] text-black">{product.title}</span>
-                          <span className="text-[12px] tracking-[0.35em] text-black/70">{product.price}</span>
+                          <span className="text-[13px] uppercase tracking-[0.2em] text-black">{product.title}</span>
+                          <span className="text-[12px] tracking-[0.18em] text-black/70">{product.price}</span>
                         </div>
                       </article>
                     </Link>
