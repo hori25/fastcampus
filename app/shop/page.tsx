@@ -170,7 +170,7 @@ export default function ShopPage() {
                   className="grid grid-cols-12 gap-x-[10px] gap-y-8 sm:grid-cols-12"
                 >
                   {row.map((product) => (
-                    <Link key={product.id} href="/shop/1" className="col-span-12 sm:col-span-6 xl:col-span-3">
+                    <Link key={product.id} href="/shop/2" className="col-span-12 sm:col-span-6 xl:col-span-3">
                       <article className="product-card group flex cursor-pointer flex-col gap-4 transition hover:opacity-85 will-change-transform opacity-0 translate-y-3">
                         <div className="relative aspect-square overflow-hidden bg-[#f7f6f3]">
                           <Image

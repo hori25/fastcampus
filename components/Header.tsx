@@ -13,7 +13,7 @@ type FormData = {
   confirmPassword?: string;
 };
 
-export default function Header() {
+export default function Header({ isPurchaseMode }: { isPurchaseMode?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -171,24 +171,45 @@ export default function Header() {
               </a>
             </div>
 
-            <div className="col-span-4 flex items-center justify-end gap-6 text-[11px] uppercase tracking-[0.2em] text-ink">
-              <a href="/mypage" className="transition-opacity hover:opacity-60">
-                My Page
-              </a>
-              <button
-                type="button"
-                onClick={() => setAuthMode('login')}
-                className="transition-opacity hover:opacity-60"
+            <div className="relative col-span-4 flex h-[32px] items-center justify-end overflow-hidden">
+              {/* 기존 메뉴 (My Page / LOGIN / JOIN) */}
+              <div
+                className={`absolute right-0 flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] text-ink transition-all duration-500 ease-out ${
+                  isPurchaseMode ? 'translate-y-[-150%] opacity-0' : 'translate-y-0 opacity-100'
+                }`}
               >
-                LOGIN
-              </button>
-              <button
-                type="button"
-                onClick={() => setAuthMode('signup')}
-                className="transition-opacity hover:opacity-60"
+                <a href="/mypage" className="transition-opacity hover:opacity-60">
+                  My Page
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('login')}
+                  className="transition-opacity hover:opacity-60"
+                >
+                  LOGIN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('signup')}
+                  className="transition-opacity hover:opacity-60"
+                >
+                  JOIN
+                </button>
+              </div>
+
+              {/* PURCHASE 버튼 */}
+              <div
+                className={`absolute right-0 transition-all duration-500 ease-out ${
+                  isPurchaseMode ? 'translate-y-0 opacity-100' : 'translate-y-[150%] opacity-0'
+                }`}
               >
-                JOIN
-              </button>
+                <button
+                  type="button"
+                  className="bg-black px-5 py-[6px] text-[11px] font-medium uppercase tracking-[0.2em] text-white transition hover:bg-black/80"
+                >
+                  PURCHASE
+                </button>
+              </div>
             </div>
           </div>
         </div>

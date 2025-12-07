@@ -17,28 +17,21 @@ export default function BrandEssay() {
   const spawnIdRef = useRef<number | null>(null);
   const lastPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const basePoolRef = useRef<string[]>([
-    '/assets/offline/offline4.png',
-    '/assets/offline/offline5.jpg',
-    '/assets/offline/offline6.jpg',
-    '/assets/offline/offline7.jpg',
-    '/assets/offline/offline8.jpg',
-    '/assets/offline/offline9.jpg',
-    '/assets/shop/shop_1.png',
-    '/assets/shop/shop_2.png',
-    '/assets/shop/shop_3.png',
-    '/assets/shop/shop_4.png',
-    '/assets/shop/shop_5.png',
-    '/assets/shop/shop_6.png',
-    '/assets/shop/shop_7.png',
-    '/assets/shop/shop_8.png',
-    '/assets/main/main1_1.png',
-    '/assets/main/main_1_2.png',
-    '/assets/main/main2_1.png',
-    '/assets/main/main_2_2.png',
-    '/assets/new1.png',
-    '/assets/new2.png',
-    '/assets/new3.png',
-    '/assets/new4.png',
+    '/assets/third/06a26ecb2b36382d23d4ec52eb9e3547.jpg',
+    '/assets/third/1ac9caeddaded3252f77b3fd0f1314b9.jpg',
+    '/assets/third/26f5ffed3d3d6e932ab83d2e964c44ab.jpg',
+    '/assets/third/411063cbf2810c9d225649a475245795.jpg',
+    '/assets/third/457e2a712e64b3575b9e685dcdfc1488.jpg',
+    '/assets/third/4f4b57256f2f727ac5d3906dda206b62.jpg',
+    '/assets/third/5569f5b4d6cb2d52401e24ed1cbd2de7.jpg',
+    '/assets/third/59aff09c965bb558b5403dfbbfcd4507.jpg',
+    '/assets/third/7b62f660c2c653f6df3a0d4a7e5b8ad0.jpg',
+    '/assets/third/80b0fcbb7ccdc11253a8d12ed689d66b.jpg',
+    '/assets/third/938e616f08e040dda7ac16105fdffd11.jpg',
+    '/assets/third/99d2de151233233e825c0b711e20596b.jpg',
+    '/assets/third/bc0a74cf9d913ed5932a8b5ee6e26121.jpg',
+    '/assets/third/c85a915388e9f08f71fddde83d4a0048.jpg',
+    '/assets/third/fd157c1eb7713b21f92061720a63ad14.jpg',
   ]);
   const queueRef = useRef<string[]>([]);
   const getNextImage = () => {
@@ -194,25 +187,27 @@ export default function BrandEssay() {
     imgEl.style.zIndex = '300';
     imgEl.style.objectFit = 'contain';
     imgEl.style.willChange = 'transform, opacity';
-    imgEl.style.transition = 'opacity 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1)';
+    // 속도 조절: 0.45s -> 0.8s (더 천천히)
+    imgEl.style.transition = 'opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)';
 
     previewContainerRef.current.appendChild(imgEl);
 
-    // 등장 애니메이션 (scale up + fade in)
+    // 등장 애니메이션 (scale 0.8 -> 1.0 줌인 + fade in)
     requestAnimationFrame(() => {
       imgEl.style.opacity = '1';
       imgEl.style.transform = `translate(-50%, -50%) scale(1) rotate(${rot}deg)`;
     });
 
-    // 종료 애니메이션
+    // 종료 애니메이션 (조금 더 오래 머물다가 사라짐)
     setTimeout(() => {
       imgEl.style.opacity = '0';
+      // 사라질 때 scale 1.0 -> 0.7 줌아웃
       imgEl.style.transform = `translate(-50%, -50%) scale(0.7) rotate(${rot}deg)`;
-    }, 600);
+    }, 800); // 600ms -> 800ms (유지 시간 증가)
 
     setTimeout(() => {
       if (imgEl.parentNode) imgEl.parentNode.removeChild(imgEl);
-    }, 1100);
+    }, 1800); // 1100ms -> 1800ms (transition 끝날 때까지 대기)
   };
 
   return (

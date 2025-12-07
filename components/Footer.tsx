@@ -83,73 +83,70 @@ export default function Footer() {
         </div>
 
         {/* Footer Content - Soft Wipe */}
-        <div className="footer-content mx-auto flex w-full max-w-[1384px] flex-[0_0_auto] flex-wrap items-end gap-x-[218px] gap-y-[16px] self-stretch py-[10px]">
-          {/* Separator Line */}
-          <div className="h-[1px] w-[1384px] border-t border-[#e5e7eb]" />
+        <div className="footer-content mx-auto flex w-full max-w-[1384px] flex-[0_0_auto] items-center justify-between gap-[20px] self-stretch py-[10px]">
+          
+          {/* Left Group: Copyright + Location */}
+          <div className="flex items-center gap-[20px]">
+            {/* Copyright */}
+            <div className="flex h-[14px] items-center justify-center whitespace-nowrap">
+              <p className="font-['sk-modernist'] text-[12px] font-normal leading-[20px] tracking-[0.3px] text-[#767676]">
+                © 2025 BYREDO
+              </p>
+            </div>
 
-          {/* Copyright */}
-          <div className="flex h-[14px] w-[99.1px] items-center justify-center whitespace-nowrap">
-            <p className="font-['sk-modernist'] text-[12px] font-normal leading-[20px] tracking-[0.3px] text-[#767676]">
-              © 2025 BYREDO
-            </p>
+            {/* Location Selector (Moved here to be inline) */}
+            <div className="relative flex items-center gap-2">
+              {/* EU Flag Circle */}
+              <div className="h-[20px] w-[20px] rounded-full bg-[#003399] flex items-center justify-center">
+                 <div className="h-[12px] w-[12px] rounded-full border-2 border-yellow-400" />
+              </div>
+
+              {/* Location Text */}
+              <a
+                href="#"
+                className="whitespace-nowrap font-['sk-modernist'] text-[9.8px] font-normal leading-[16px] tracking-[0.3px] text-black underline"
+              >
+                Europe (€) | English
+              </a>
+            </div>
           </div>
 
-          {/* Social Links */}
-          <div className="inline-flex flex-[0_0_auto] items-center gap-[12px]">
+          {/* Center Group: Social Links */}
+          <div className="flex items-center gap-[24px]">
             {socials.map((social) => (
-              <div key={social.name} className="relative h-[16px]" style={{ width: social.width }}>
-                <a
-                  href="#"
-                  className="absolute left-0 top-[2px] flex h-[11px] w-full items-center justify-center whitespace-nowrap font-['sk-modernist'] font-normal leading-[16px] tracking-[0.3px] text-black transition-opacity hover:opacity-60"
-                  style={{ fontSize: social.fontSize }}
-                >
-                  {social.name}
-                </a>
-              </div>
+              <a
+                key={social.name}
+                href="#"
+                className="whitespace-nowrap font-['sk-modernist'] font-normal leading-[16px] tracking-[0.3px] text-black transition-opacity hover:opacity-60"
+                style={{ fontSize: social.fontSize }}
+              >
+                {social.name}
+              </a>
             ))}
           </div>
 
-          {/* Accessibility Icon */}
-          <div className="relative h-[21px] w-[54px]">
-            <div className="flex h-full w-full items-center justify-center">
-              <svg
-                width="54"
-                height="21"
-                viewBox="0 0 54 21"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="10.5" cy="10.5" r="10" stroke="#000" strokeWidth="1" />
-                <circle cx="10.5" cy="7" r="1.5" fill="#000" />
-                <path
-                  d="M10.5 10V14M8 12H13"
-                  stroke="#000"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-          </div>
-
-          {/* Location Selector */}
-          <div className="relative h-[20px] w-[157.89px]">
-            {/* EU Flag Circle */}
-            <div
-              className="absolute left-[calc(50%-79px)] top-[calc(50%-10px)] h-[20px] w-[20px] rounded-full bg-[#003399]"
-              style={{ aspectRatio: '1' }}
-            >
+          {/* Right Group: Accessibility Icon */}
+          <div className="flex items-center justify-end">
+            <div className="relative h-[21px] w-[54px]">
               <div className="flex h-full w-full items-center justify-center">
-                <div className="h-[12px] w-[12px] rounded-full border-2 border-yellow-400" />
+                <svg
+                  width="54"
+                  height="21"
+                  viewBox="0 0 54 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="10.5" cy="10.5" r="10" stroke="#000" strokeWidth="1" />
+                  <circle cx="10.5" cy="7" r="1.5" fill="#000" />
+                  <path
+                    d="M10.5 10V14M8 12H13"
+                    stroke="#000"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                  />
+                </svg>
               </div>
             </div>
-
-            {/* Location Text */}
-            <a
-              href="#"
-              className="absolute left-[calc(50%-51px)] top-[4px] flex h-[11px] w-[130px] items-center justify-center whitespace-nowrap text-center font-['sk-modernist'] text-[9.8px] font-normal leading-[16px] tracking-[0.3px] text-black underline"
-            >
-              Europe (€) | English
-            </a>
           </div>
         </div>
       </div>

@@ -5,12 +5,22 @@ import Header from '@/components/Header';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 
 const ProductModel3D = dynamic(() => import('@/components/ProductModel3D'), {
   ssr: false,
   loading: () => (
     <div className="flex h-screen w-full items-center justify-center bg-[#f5f5f5] text-black/30">
       Loading 3D Model...
+    </div>
+  )
+});
+
+const ProductModel3D_Rouge = dynamic(() => import('@/components/ProductModel3D_Rouge'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-screen w-full items-center justify-center bg-[#eaeaea] text-black/30">
+      Loading Rouge Model...
     </div>
   )
 });
@@ -28,12 +38,42 @@ const relatedProducts = [
 ];
 
 export default function ProductDetailPage() {
+  const params = useParams();
+  const id = params?.id as string | undefined;
+
   const [isFixed, setIsFixed] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0); // 스크롤 진행률 (0~1)
+  
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const relatedSectionRef = useRef<HTMLElement>(null);
+
+  // 구간별 텍스트 데이터 (0번은 기존 구매 폼 유지)
+  const viewContents = [
+    null, // 0: 기본 구매 폼
+    {
+      title: "CHAOTIC PASSION",
+      desc: "A symphony of saffron and plum opens the composition, creating an intense and chaotic harmony. The vibrant top notes clash beautifully with the deeper undertones, setting the stage for a fragrance that refuses to be defined by convention.",
+    },
+    {
+      title: "DEEP RED INTENSITY",
+      desc: "The heart reveals a richness of praline and patchouli, unveiling a dark, sophisticated allure. This deep red intensity speaks of passion and mystery, wrapping the wearer in a luxurious veil that is both bold and intimately personal.",
+    },
+    {
+      title: "UNVEILED ESSENCE",
+      desc: "At its core lies a hidden strength of papyrus and oakmoss, grounding the initial chaos in an earthy warmth. This unveiled essence provides a sturdy foundation, balancing the wilder notes with a sense of timeless elegance.",
+    },
+    {
+      title: "PURE CONCENTRATION",
+      desc: "Crafted as an Extrait de Parfum, Rouge Chaotique offers a pure concentration of scent that lingers like a second soul. Its potency ensures that even a single drop leaves a lasting trail, evolving uniquely with your body's chemistry.",
+    },
+    {
+      title: "THE FINAL NOTE",
+      desc: "The journey concludes with a lasting impression of elegance and rebellion, captured within a single bottle. It is a fragrance for those who embrace their contradictions, leaving a final note that is as unforgettable as it is unpredictable.",
+    },
+  ];
 
   const itemsPerView = 3; // 한 번에 보이는 상품 수
   const maxIndex = relatedProducts.length - itemsPerView;
@@ -53,6 +93,7 @@ export default function ProductDetailPage() {
       const section = sectionRef.current;
       const rect = section.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
+      const sectionHeight = section.offsetHeight;
 
       // 섹션 상단이 화면 상단에 닿으면 fixed 시작
       if (rect.top <= 0) {
@@ -65,6 +106,14 @@ export default function ProductDetailPage() {
       } else {
         setIsFixed(false);
       }
+
+      // 스크롤 진행률 계산 (0 ~ 1)
+      // 시작점: rect.top <= 0 부터
+      // 끝점: rect.bottom <= viewportHeight 까지
+      const scrollRange = sectionHeight - viewportHeight;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / scrollRange));
+      setScrollProgress(progress);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -74,6 +123,18 @@ export default function ProductDetailPage() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // 현재 구간 인덱스 계산 (0 ~ 5)
+  // 총 6구간이므로 progress를 6등분
+  // 0.00 ~ 0.16 : 0
+  // 0.16 ~ 0.33 : 1 ...
+  const currentViewIndex = Math.min(
+    5,
+    Math.floor(scrollProgress * 6)
+  );
+
+  // 현재 보여줄 텍스트 콘텐츠
+  const activeContent = viewContents[currentViewIndex];
 
   // 관련상품 섹션 Intersection Observer
   useEffect(() => {
@@ -101,7 +162,7 @@ export default function ProductDetailPage() {
 
   return (
     <>
-      <Header />
+      <Header isPurchaseMode={currentViewIndex > 0} />
       <main className="bg-white">
         {/* 3D Product Section */}
         <section ref={sectionRef} id="product-3d-section" className="relative" style={{ minHeight: '600vh' }}>
@@ -112,47 +173,89 @@ export default function ProductDetailPage() {
           >
             <div className="grid h-full lg:grid-cols-2">
               {/* 좌측: 3D 모델 */}
-              <div className="relative h-full bg-[#f5f5f5]">
-                <ProductModel3D />
+              <div 
+                className="relative h-full"
+                style={{
+                  backgroundColor: id === '2' ? '#eeeeee' : '#f5f5f5'
+                }}
+              >
+                {/* ID 2번일 때만 Rouge 전용 컴포넌트, 나머지는 기존 모델 */}
+                {id === '2' ? <ProductModel3D_Rouge /> : <ProductModel3D />}
               </div>
 
               {/* 우측: 제품 정보 */}
               <div className="relative flex h-full flex-col items-center justify-center bg-white px-12 py-20">
-                <div className="max-w-[400px]">
-                  {/* 타이틀 */}
-                  <h1 className="font-['sk-modernist'] text-[28px] font-bold uppercase leading-[1.2] tracking-[0.02em] text-[#1b1b1b]">
-                    BAL D'AFRIQUE
-                  </h1>
+                <div className="relative w-full max-w-[400px]">
+                  {/* 0번 구간: 기존 구매 폼 (Fade In/Out) */}
+                  <div
+                    className={`w-full transition-all duration-700 ease-out ${
+                      currentViewIndex === 0
+                        ? 'opacity-100 translate-y-0 pointer-events-auto'
+                        : 'absolute top-1/2 left-0 -translate-y-1/2 opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    {/* 타이틀 */}
+                    <h1 className="font-['sk-modernist'] text-[28px] font-bold uppercase leading-[1.2] tracking-[0.02em] text-[#1b1b1b]">
+                      {id === '2' ? 'Rouge Chaotique' : "BAL D'AFRIQUE"}
+                    </h1>
 
-                  {/* 설명 */}
-                  <p className="mt-4 font-['sk-modernist'] text-[18px] leading-[1.6] text-[#1b1b1b]">
-                    The Bal d'Afrique Eau de Parfum in 50ml, a warm and sensual fragrance with notes of African marigold, vetiver and cedar.
-                  </p>
+                    {/* 설명 */}
+                    <p className="mt-4 font-['sk-modernist'] text-[18px] leading-[1.6] text-[#1b1b1b]">
+                      {id === '2'
+                        ? 'A chaotic and passionate fragrance, deep red and intense. Saffron, Plum, Praline and Patchouli weave together in a dark, sophisticated symphony.'
+                        : "The Bal d'Afrique Eau de Parfum in 50ml, a warm and sensual fragrance with notes of African marigold, vetiver and cedar."}
+                    </p>
 
-                  {/* 가격 */}
-                  <p className="mt-6 font-['sk-modernist'] text-[18px] font-bold tracking-[0.02em] text-[#1b1b1b]">
-                    $210
-                  </p>
+                    {/* 가격 */}
+                    <p className="mt-6 font-['sk-modernist'] text-[18px] font-bold tracking-[0.02em] text-[#1b1b1b]">
+                      {id === '2' ? '$280' : '$210'}
+                    </p>
 
-                  {/* PURCHASE 버튼 */}
-                  <button className="mt-8 w-full bg-black py-5 font-['sk-modernist'] text-[13px] uppercase tracking-[0.25em] text-white transition hover:bg-black/90">
-                    PURCHASE
-                  </button>
+                    {/* PURCHASE 버튼 */}
+                    <button className="mt-8 w-full bg-black py-5 font-['sk-modernist'] text-[13px] uppercase tracking-[0.25em] text-white transition hover:bg-black/90">
+                      PURCHASE
+                    </button>
 
-                  {/* 링크들 */}
-                  <div className="mt-10 flex flex-col gap-4">
-                    <a href="#" className="font-['sk-modernist'] text-[12px] font-bold uppercase tracking-[0.15em] text-[#1b1b1b] transition hover:opacity-60">
-                      BOOK AN APPOINTMENT
-                    </a>
-                    <a href="#" className="font-['sk-modernist'] text-[12px] font-bold uppercase tracking-[0.15em] text-[#1b1b1b] transition hover:opacity-60">
-                      CONTACT AN AMBASSADOR
-                    </a>
+                    {/* Ref 번호 */}
+                    <p className="mt-8 font-['sk-modernist'] text-[14px] text-[#999]">
+                      Ref. BYR50ML
+                    </p>
                   </div>
 
-                  {/* Ref 번호 */}
-                  <p className="mt-8 font-['sk-modernist'] text-[14px] text-[#999]">
-                    Ref. BYR50ML
-                  </p>
+                  {/* 1~5번 구간: 더미 텍스트 (Fade In/Out, 좌측 정렬) */}
+                  <div className="absolute inset-0 flex items-center justify-start text-left pointer-events-none">
+                    {viewContents.map((content, idx) => (
+                      idx > 0 && (
+                        <div
+                          key={idx}
+                          className={`absolute w-full transition-all duration-700 ease-out flex flex-col items-start justify-center ${
+                            currentViewIndex === idx 
+                              ? 'opacity-100 translate-y-0' 
+                              : 'opacity-0 translate-y-8'
+                          }`}
+                        >
+                          <h2 className="font-['sk-modernist'] text-[28px] font-bold uppercase leading-[1.2] tracking-[0.02em] text-[#1b1b1b]">
+                            {content?.title}
+                          </h2>
+                          <p className="mt-4 font-['sk-modernist'] text-[18px] leading-[1.6] text-[#1b1b1b]">
+                            {content?.desc}
+                          </p>
+                        </div>
+                      )
+                    ))}
+                  </div>
+                </div>
+
+                {/* 인디케이터 닷 (우측 고정) */}
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3">
+                  {viewContents.map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                        currentViewIndex === idx ? 'bg-black scale-125' : 'bg-gray-300 scale-100'
+                      }`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

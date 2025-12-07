@@ -169,16 +169,16 @@ export default function OfflineStorePage() {
                 }}
               >
                 <div className="relative aspect-square overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.2091339927547!2d2.3310113!3d48.8738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e3d4f8f9d3b%3A0x8d8e1f5a5f5c5c5c!2sGaleries%20Lafayette%20Paris%20Haussmann!5e0!3m2!1sen!2s!4v1234567890"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="grayscale"
-                  />
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.2091339927547!2d2.3310113!3d48.8738!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e3d4f8f9d3b%3A0x8d8e1f5a5f5c5c5c!2sGaleries%20Lafayette%20Paris%20Haussmann!5e0!3m2!1sen!2s!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="grayscale"
+                />
                 </div>
 
                 {/* Address + Copy */}
