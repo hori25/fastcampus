@@ -4,6 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import imgNewsletter1 from '@/assets/newsletter/Rectangle-1894-700x558.webp-1.png';
+import imgNewsletter2 from '@/assets/newsletter/Rectangle-1897-500x631.webp.png';
+import imgNewsletter3 from '@/assets/newsletter/Rectangle-1894-700x558.webp.png';
+import imgNewsletter4 from '@/assets/newsletter/Rectangle-1896-300x380.webp.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -158,7 +162,7 @@ export default function Newsletter() {
           ref={image1Ref}
           className="scroll-image absolute left-[238px] top-0 h-[372px] w-[467px] bg-cover bg-center"
           data-speed="0.6"
-          style={{ backgroundImage: 'url(/assets/new1.png)' }}
+          style={{ backgroundImage: `url(${imgNewsletter1.src})` }}
         />
 
         {/* 이미지 2 - 우측 중단 */}
@@ -166,7 +170,7 @@ export default function Newsletter() {
           ref={image2Ref}
           className="scroll-image absolute left-[1072px] top-[262px] h-[138px] w-[109px] bg-cover bg-center"
           data-speed="1.2"
-          style={{ backgroundImage: 'url(/assets/new2.png)' }}
+          style={{ backgroundImage: `url(${imgNewsletter2.src})` }}
         />
 
         {/* 이미지 3 - 좌측 하단 */}
@@ -174,7 +178,7 @@ export default function Newsletter() {
           ref={image3Ref}
           className="scroll-image absolute left-0 top-[581px] h-[288px] w-[228px] bg-cover bg-center"
           data-speed="0.9"
-          style={{ backgroundImage: 'url(/assets/new3.png)' }}
+          style={{ backgroundImage: `url(${imgNewsletter3.src})` }}
         />
 
         {/* 이미지 4 - 우측 하단 */}
@@ -182,7 +186,7 @@ export default function Newsletter() {
           ref={image4Ref}
           className="scroll-image absolute left-[1072px] top-[705px] h-[277px] w-[348px] bg-cover bg-center"
           data-speed="1.4"
-          style={{ backgroundImage: 'url(/assets/new4.png)' }}
+          style={{ backgroundImage: `url(${imgNewsletter4.src})` }}
         />
 
         {/* 중앙 컨텐츠 - section-shell 내부에서 정중앙 */}
@@ -193,7 +197,7 @@ export default function Newsletter() {
           {/* 제목 */}
           <h2
             className="whitespace-nowrap text-center font-['sk-modernist'] text-[68.8px] font-extrabold leading-[60px] text-[#231f20]"
-            style={{ letterSpacing: '0.08em' }}
+            style={{ letterSpacing: '0.02em' }}
           >
             NEWSLETTER
           </h2>

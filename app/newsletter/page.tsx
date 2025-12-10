@@ -4,8 +4,23 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
 import Image from 'next/image';
+import thirdImg1 from '@/assets/third/06a26ecb2b36382d23d4ec52eb9e3547.jpg';
+import thirdImg2 from '@/assets/third/1ac9caeddaded3252f77b3fd0f1314b9.jpg';
+import thirdImg3 from '@/assets/third/26f5ffed3d3d6e932ab83d2e964c44ab.jpg';
+import thirdImg4 from '@/assets/third/411063cbf2810c9d225649a475245795.jpg';
+import thirdImg5 from '@/assets/third/457e2a712e64b3575b9e685dcdfc1488.jpg';
+import thirdImg6 from '@/assets/third/4f4b57256f2f727ac5d3906dda206b62.jpg';
+import thirdImg7 from '@/assets/third/5569f5b4d6cb2d52401e24ed1cbd2de7.jpg';
+import thirdImg8 from '@/assets/third/59aff09c965bb558b5403dfbbfcd4507.jpg';
+import thirdImg9 from '@/assets/third/7b62f660c2c653f6df3a0d4a7e5b8ad0.jpg';
+import thirdImg10 from '@/assets/third/80b0fcbb7ccdc11253a8d12ed689d66b.jpg';
+import thirdImg11 from '@/assets/third/938e616f08e040dda7ac16105fdffd11.jpg';
+import thirdImg12 from '@/assets/third/99d2de151233233e825c0b711e20596b.jpg';
+import thirdImg13 from '@/assets/third/bc0a74cf9d913ed5932a8b5ee6e26121.jpg';
+import thirdImg14 from '@/assets/third/c85a915388e9f08f71fddde83d4a0048.jpg';
+import thirdImg15 from '@/assets/third/fd157c1eb7713b21f92061720a63ad14.jpg';
 
-// 갤러리 이미지 데이터 (중복 포함하여 더 많이)
+// 갤러리 이미지 데이터 (기존 + third 컬렉션 이미지 추가)
 const galleryImages = [
   { src: '/assets/image1.png', title: 'Sundazed', subtitle: 'Eau de Parfum' },
   { src: '/assets/image2.png', title: 'Mojave Ghost', subtitle: 'Eau de Parfum' },
@@ -31,6 +46,22 @@ const galleryImages = [
   { src: '/assets/carousel_2.png', title: 'Slow Dance', subtitle: 'Candle' },
   { src: '/assets/new2.png', title: 'Bal d\'Afrique', subtitle: 'Body Lotion' },
   { src: '/assets/carousel_3.png', title: 'Mixed Emotions', subtitle: 'Hand Wash' },
+  // third 폴더 이미지들
+  { src: thirdImg1, title: 'Rose Noir', subtitle: 'Candle' },
+  { src: thirdImg2, title: 'Mojave Ghost', subtitle: 'Collection' },
+  { src: thirdImg3, title: 'Bal d\'Afrique', subtitle: 'Collection' },
+  { src: thirdImg4, title: 'Limited Edition', subtitle: 'Art Print' },
+  { src: thirdImg5, title: 'Perfume Study', subtitle: 'Visual' },
+  { src: thirdImg6, title: 'Byredo Object', subtitle: 'Still Life' },
+  { src: thirdImg7, title: 'Byredo Detail', subtitle: 'Macro' },
+  { src: thirdImg8, title: 'Beach Foam', subtitle: 'Mood' },
+  { src: thirdImg9, title: 'Portrait Blur', subtitle: 'Campaign' },
+  { src: thirdImg10, title: 'Soft Light', subtitle: 'Visual' },
+  { src: thirdImg11, title: 'Monochrome', subtitle: 'Photography' },
+  { src: thirdImg12, title: 'Studio Shot', subtitle: 'Collection' },
+  { src: thirdImg13, title: 'Sand & Sea', subtitle: 'Mood' },
+  { src: thirdImg14, title: 'Glass Detail', subtitle: 'Object' },
+  { src: thirdImg15, title: 'Night Study', subtitle: 'Visual' },
 ];
 
 export default function NewsletterPage() {
@@ -234,13 +265,16 @@ export default function NewsletterPage() {
               style={{
                 top: pos.top,
                 left: pos.left,
-                width: pos.width,
-                height: pos.height
+                width: pos.width
               }}
               onMouseEnter={() => setHoveredItem({ title: item.title, subtitle: item.subtitle })}
               onMouseLeave={() => setHoveredItem(null)}
             >
-              <div className="relative h-full w-full overflow-hidden bg-[#e8e6e3]">
+              {/* 내부 박스를 패딩 기반 정사각형으로 만들어 항상 1:1 유지 */}
+              <div
+                className="relative w-full overflow-hidden bg-[#e8e6e3]"
+                style={{ paddingBottom: '100%' }} // height = width
+              >
                 <Image
                   src={item.src}
                   alt={item.title}

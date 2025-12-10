@@ -116,8 +116,8 @@ export default function BrandEssay() {
     if (!isInside || !isActive) return;
     lastPosRef.current = { x: e.clientX, y: e.clientY };
     const now = performance.now();
-    // 스폰 간격: 100ms (스크립트 요구사항)
-    if (now - lastSpawnTimeRef.current > 100) {
+    // 스폰 간격: 300ms (이전보다 약 3배 느리게)
+    if (now - lastSpawnTimeRef.current > 300) {
       lastSpawnTimeRef.current = now;
       spawnPreview(e.clientX, e.clientY);
     }
@@ -156,18 +156,19 @@ export default function BrandEssay() {
     if (!isInside || !isActive) return;
     const interval = setInterval(() => {
       const now = performance.now();
-      if (now - lastSpawnTimeRef.current > 100) {
+      // 자동 스폰 간격도 약 3배 느리게 (100ms -> 300ms)
+      if (now - lastSpawnTimeRef.current > 300) {
         lastSpawnTimeRef.current = now;
         spawnPreview(lastPosRef.current.x, lastPosRef.current.y);
       }
-    }, 140); // 약간의 간격으로 반복 스폰
+    }, 420); // 140ms -> 420ms (3배 느리게)
     return () => clearInterval(interval);
   }, [isDesktop, isInside, isActive]);
 
   const spawnPreview = (x: number, y: number) => {
     if (!previewContainerRef.current) return;
     const imgSrc = getNextImage();
-    const size = 120;
+    const size = 160; // 이미지 사이즈 조금 더 크게
     const imgEl = document.createElement('img');
     imgEl.src = imgSrc;
     imgEl.onerror = () => {
@@ -181,28 +182,30 @@ export default function BrandEssay() {
     imgEl.style.width = `${size}px`;
     imgEl.style.height = `${size}px`;
     const rot = (Math.random() - 0.5) * 16; // -8 ~ 8deg
-    imgEl.style.transform = `translate(-50%, -50%) scale(0.8) rotate(${rot}deg)`;
+    // 처음에는 약간 작게 시작
+    imgEl.style.transform = `translate(-50%, -50%) scale(0.7) rotate(${rot}deg)`;
     imgEl.style.opacity = '0';
     imgEl.style.pointerEvents = 'none';
     imgEl.style.zIndex = '300';
     imgEl.style.objectFit = 'contain';
     imgEl.style.willChange = 'transform, opacity';
-    // 속도 조절: 0.45s -> 0.8s (더 천천히)
-    imgEl.style.transition = 'opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)';
+    // 등장/퇴장 시 확대 → 축소되는 인터랙션
+    imgEl.style.transition =
+      'opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1)';
 
     previewContainerRef.current.appendChild(imgEl);
 
-    // 등장 애니메이션 (scale 0.8 -> 1.0 줌인 + fade in)
+    // 등장 애니메이션 (scale 0.7 -> 1.15 줌인 + fade in)
     requestAnimationFrame(() => {
       imgEl.style.opacity = '1';
-      imgEl.style.transform = `translate(-50%, -50%) scale(1) rotate(${rot}deg)`;
+      imgEl.style.transform = `translate(-50%, -50%) scale(1.15) rotate(${rot}deg)`;
     });
 
-    // 종료 애니메이션 (조금 더 오래 머물다가 사라짐)
+    // 종료 애니메이션 (조금 더 오래 머물다가 작아지며 사라짐)
     setTimeout(() => {
       imgEl.style.opacity = '0';
-      // 사라질 때 scale 1.0 -> 0.7 줌아웃
-      imgEl.style.transform = `translate(-50%, -50%) scale(0.7) rotate(${rot}deg)`;
+      // 사라질 때 scale 1.15 -> 0.6 줌아웃
+      imgEl.style.transform = `translate(-50%, -50%) scale(0.6) rotate(${rot}deg)`;
     }, 800); // 600ms -> 800ms (유지 시간 증가)
 
     setTimeout(() => {
@@ -249,13 +252,13 @@ export default function BrandEssay() {
             </div>
           </div>
 
-          {/* Large Text - Top (Center aligned) */}
-          <div className="scroll-text absolute left-1/2 top-[20px] z-50 -translate-x-1/2 pointer-events-auto" data-speed="1.0">
-            <HalftoneTitle lines={['BYREDO CREATES', 'UNSEEN SCENTS']} align="center" />
+          {/* Large Text - Top (Center aligned) - slightly lower so it overlaps the image */}
+          <div className="scroll-text absolute left-1/2 top-[80px] z-50 -translate-x-1/2 pointer-events-auto" data-speed="1.0">
+            <HalftoneTitle lines={['BYREDO CREATES']} align="center" />
           </div>
 
           {/* Large Text - Bottom (Right aligned) */}
-          <div className="scroll-text absolute right-0 top-[200px] z-50 pointer-events-auto" data-speed="1.0">
+          <div className="scroll-text absolute right-0 top-[260px] z-50 pointer-events-auto" data-speed="1.0">
             <HalftoneTitle lines={['WITH A TASTE', 'OF PERFUME.']} align="right" />
           </div>
 

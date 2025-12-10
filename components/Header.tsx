@@ -13,7 +13,13 @@ type FormData = {
   confirmPassword?: string;
 };
 
-export default function Header({ isPurchaseMode }: { isPurchaseMode?: boolean }) {
+type HeaderProps = {
+  isPurchaseMode?: boolean;
+  /** 메인 페이지 등에서 헤더를 항상 투명하게 사용하고 싶을 때 */
+  transparent?: boolean;
+};
+
+export default function Header({ isPurchaseMode, transparent }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -142,9 +148,12 @@ export default function Header({ isPurchaseMode }: { isPurchaseMode?: boolean })
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-500 ${
+          // 메인에서는 처음엔 투명, 스크롤하면 흰색 배경
           isScrolled
-            ? 'bg-transparent border-transparent backdrop-blur-none'
-            : 'bg-white/95 backdrop-blur-sm border-black/5'
+            ? 'bg-white/95 backdrop-blur-sm border-black/5'
+            : transparent
+              ? 'bg-transparent border-transparent backdrop-blur-none'
+              : 'bg-white/95 backdrop-blur-sm border-black/5'
         }`}
       >
         <div className="section-shell">

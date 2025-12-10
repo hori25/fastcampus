@@ -106,13 +106,33 @@ export default function ProductModel3D_Rouge() {
     scene.add(ambientLight);
 
     // Key light (Strong highlight)
-    // 강도 1.5 (너무 쨍하지 않게)
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    // 위치 조정: 너무 Top 조명 같지 않게 높이(y)를 낮추고 앞쪽(z)으로 당김 (2, 2.5, 2 -> 2, 1.5, 3)
-    keyLight.position.set(2, 1.5, 3); 
+    // 강도 1.4 (너무 쨍하지 않게)
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+    // 위치 조정: 거의 정면-상단에서 비추게 해서
+    // 정면 뷰에서도 병 바로 아래로 그림자가 자연스럽게 떨어지도록
+    keyLight.position.set(0.6, 5, 4);
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.set(4096, 4096);
-    (keyLight.shadow as any).radius = 1.5;
+    // 그림자 해상도를 더 낮추고 radius/카메라 영역을 크게 잡아서,
+    // 바닥에 넓게 퍼지는 매우 부드러운 그림자를 만든다
+    keyLight.shadow.mapSize.set(1024, 1024);
+    (keyLight.shadow as any).radius = 14.0;
+
+    const d = 18; // 그림자 카메라 범위 (넓게 잡아서 spread 효과)
+    const shadowCam = keyLight.shadow.camera as THREE.OrthographicCamera;
+    shadowCam.left = -d;
+    shadowCam.right = d;
+    shadowCam.top = d;
+    shadowCam.bottom = -d;
+    shadowCam.near = 1;
+    shadowCam.far = 30;
+    keyLight.shadow.camera.updateProjectionMatrix();
+
+    // 라이트 타겟을 병 바닥 중심으로 고정해서,
+    // 카메라 각도와 상관 없이 그림자가 병 중심에서 시작되도록
+    const lightTarget = new THREE.Object3D();
+    lightTarget.position.set(0, -0.28, 0);
+    scene.add(lightTarget);
+    keyLight.target = lightTarget;
     scene.add(keyLight);
     keyLightRef.current = keyLight;
 
@@ -145,11 +165,13 @@ export default function ProductModel3D_Rouge() {
 
     // Shadow Plane
     const shadowPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(16, 16),
-      new THREE.ShadowMaterial({ opacity: 0.12 })
+      // 그림자 받는 면적을 크게 넓혀서 바닥 전체로 번지는 느낌을 강화
+      new THREE.PlaneGeometry(60, 60),
+      new THREE.ShadowMaterial({ opacity: 0.14 })
     );
     shadowPlane.rotation.x = -Math.PI / 2;
-    shadowPlane.position.y = -0.45;
+    // 정면에서 볼 때 병보다 조금 더 아래쪽에 그림자가 위치하도록 y를 더 낮춰 조정
+    shadowPlane.position.y = -0.4;
     shadowPlane.receiveShadow = true;
     scene.add(shadowPlane);
 

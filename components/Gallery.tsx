@@ -145,7 +145,7 @@ export default function Gallery() {
         {galleryImages.map((src, index) => (
           <div
             key={index}
-            className="carousel-image relative h-[280px] min-w-[373px] flex-shrink-0"
+            className="carousel-image relative aspect-square w-[352px] flex-shrink-0"
           >
             <Image
               src={src}

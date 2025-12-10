@@ -9,28 +9,28 @@ gsap.registerPlugin(ScrollTrigger);
 
 const products = [
   {
-    title: 'SUNDAZED',
-    detail: 'STORAGES',
-    price: '€210',
-    image: '/assets/image1.png'
-  },
-  {
     title: 'MOJAVE GHOST',
     detail: 'EAU DE PARFUM',
     price: '€210',
-    image: '/assets/image2.png'
+    image: '/assets/shop/shop_1.png'
+  },
+  {
+    title: 'MOJAVE GHOST',
+    detail: 'HAIR PERFUME',
+    price: '€72',
+    image: '/assets/shop/shop_2.png'
   },
   {
     title: 'MOJAVE GHOST',
     detail: 'EXTRAIT DE PARFUM',
-    price: '€210',
-    image: '/assets/image3.png'
+    price: '€235',
+    image: '/assets/shop/shop_3.png'
   },
   {
     title: 'MOJAVE GHOST',
-    detail: 'EAU DE PARFUM',
-    price: '€210',
-    image: '/assets/image4.png'
+    detail: 'BODY LOTION',
+    price: '€65',
+    image: '/assets/shop/shop_4.png'
   }
 ];
 

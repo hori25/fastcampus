@@ -3,20 +3,18 @@
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import mainLeft1 from '@/assets/main/main1_1_.png';
+import mainLeft2 from '@/assets/main/main2_1_.png';
+import mainLeft3 from '@/assets/main/main3_1_.png';
+import mainRight1 from '@/assets/main/main1_2_.png';
+import mainRight2 from '@/assets/main/main2_2_.png';
+import mainRight3 from '@/assets/main/main3_2_.png';
 
 // 좌측 이미지 (아래에서 위로)
-const leftImages = [
-  '/assets/main/main1_1.png',
-  '/assets/main/main_2_1.png',
-  '/assets/main/main_3_1.png',
-];
+const leftImages = [mainLeft1, mainLeft2, mainLeft3];
 
 // 우측 이미지 (위에서 아래로)
-const rightImages = [
-  '/assets/main/main_1_2.png',
-  '/assets/main/main_2_2.png',
-  '/assets/main/main_3_2.png',
-];
+const rightImages = [mainRight1, mainRight2, mainRight3];
 
 export default function Hero() {
   const leftSlidesRef = useRef<HTMLDivElement[]>([]);
