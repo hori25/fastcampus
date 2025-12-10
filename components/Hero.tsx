@@ -85,7 +85,7 @@ export default function Hero() {
         <div className="relative h-full w-full overflow-hidden">
           {leftImages.map((src, idx) => (
             <div
-              key={src}
+              key={idx}
               ref={(el) => {
                 if (el) leftSlidesRef.current[idx] = el;
               }}
@@ -108,7 +108,7 @@ export default function Hero() {
         <div className="relative h-full w-full overflow-hidden">
           {rightImages.map((src, idx) => (
             <div
-              key={src}
+              key={idx}
               ref={(el) => {
                 if (el) rightSlidesRef.current[idx] = el;
               }}
