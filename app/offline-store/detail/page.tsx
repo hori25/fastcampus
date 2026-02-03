@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import logoLeBonMarche from '@/assets/offline/Le Bon Marché.svg';
 import detailImage1 from '@/assets/offline/detail_1.jpg';
 import detailImage2 from '@/assets/offline/detail_2.png';
+import new2Image from '@/assets/new2.png';
 import offline5 from '@/assets/offline/offline5.jpg';
 import offline6 from '@/assets/offline/offline6.jpg';
 import offline7 from '@/assets/offline/offline7.jpg';
@@ -90,6 +91,7 @@ export default function OfflineStoreDetailPage() {
               width={1600}
               height={320}
               className="h-auto w-full"
+              style={{ width: '100%', height: 'auto' }}
               priority
             />
           </div>
@@ -163,14 +165,14 @@ export default function OfflineStoreDetailPage() {
 
             {/* 오른쪽 이미지 - 40%, 더 낮은 비율 */}
             <div className="reveal-block col-span-12 flex flex-col md:col-span-5">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#f5f5f5]">
-                  <Image
-                  src={detailImage2}
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#f5f5f5] rounded-none">
+                <Image
+                src={new2Image}
                   alt="Offline store facade"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                  fill
+                className="object-cover rounded-none"
+                />
+              </div>
               <div className="mt-4 space-y-1 text-left">
                 <p className="text-[14px] font-medium text-black">Le Bon Marché — Facade</p>
                 <p className="text-[12px] text-black/60">Street-level view of the entrance and surrounding pavement.</p>
@@ -185,28 +187,28 @@ export default function OfflineStoreDetailPage() {
             <div className="border-t border-black/10">
               {[
                 {
-                  label: 'Flexible office solutions',
-                  title: 'SUBSCRIPTION',
+                  label: 'Berlin, Germany',
+                  title: 'KaDeWe',
                   image: detailImage1
                 },
                 {
-                  label: 'Large-scale recycling',
-                  title: 'YLLW FACTORY',
+                  label: 'Seoul, Korea',
+                  title: 'Galeries Lafayette',
                   image: detailImage2
                 },
                 {
-                  label: 'For an easy moving process',
-                  title: 'RELOCATION PROJECT MANAGEMENT',
+                  label: 'New York, USA',
+                  title: 'Bergdorf Goodman',
                   image: offline5
                 },
                 {
-                  label: 'The widest range on the market',
-                  title: 'FURNITURE PURCHASES',
+                  label: 'London, UK',
+                  title: 'Harrods',
                   image: offline6
                 },
                 {
-                  label: 'Tailor-made interior',
-                  title: 'INTERIOR DESIGN',
+                  label: 'Tokyo, Japan',
+                  title: 'Isetan',
                   image: offline7
                 }
               ].map((item, index) => (

@@ -18,39 +18,39 @@ gsap.registerPlugin(ScrollTrigger);
 type StoreThumb = {
   image: StaticImageData;
   title: string;
-  tags: string[];
+  description: string;
 };
 
 const thumbnails: StoreThumb[] = [
   {
     image: offline4,
     title: 'Thom Browne',
-    tags: ['Strategy', 'Narrative', 'Visual Identity']
+    description: 'A strategic approach to brand narrative\nand visual identity.'
   },
   {
     image: offline5,
     title: 'Le Marais Flagship',
-    tags: ['Retail', 'Experience', 'Lighting']
+    description: 'Retail experience design\nwith innovative lighting solutions.'
   },
   {
     image: offline6,
     title: 'Concrete Collection',
-    tags: ['Installation', 'Spatial Design']
+    description: 'Spatial design installation\nshowcasing modern architecture.'
   },
   {
     image: offline7,
     title: 'Pop-up Atelier',
-    tags: ['Temporary', 'Visual Identity']
+    description: 'Temporary space\nwith distinctive visual identity.'
   },
   {
     image: offline8,
     title: 'Gallery Lounge',
-    tags: ['Art Direction', 'Furniture']
+    description: 'Art direction and furniture curation\nfor gallery spaces.'
   },
   {
     image: offline9,
     title: 'Coastal Studio',
-    tags: ['Shoot', 'Set Design']
+    description: 'Set design and photography\nfor coastal lifestyle brand.'
   }
 ];
 
@@ -115,16 +115,9 @@ export default function OfflineStoreThumbnailPage() {
                     <p className="text-[18px] font-medium tracking-[0.02em] text-black">
                       {item.title}
                     </p>
-                    <div className="flex flex-wrap gap-1">
-                      {item.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="bg-[#f5f5f5] px-3 py-1 text-[12px] text-black/40"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="text-[12px] leading-relaxed text-black/60 whitespace-pre-line">
+                      {item.description}
+                    </p>
                   </div>
                 </Link>
               ))}

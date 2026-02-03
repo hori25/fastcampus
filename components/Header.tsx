@@ -156,7 +156,7 @@ export default function Header({ isPurchaseMode, transparent }: HeaderProps) {
               : 'bg-white/95 backdrop-blur-sm border-black/5'
         }`}
       >
-        <div className="section-shell">
+        <div className="w-full px-[10px]">
           <div className="grid grid-cols-12 items-center gap-[10px] py-2">
             <nav className="col-span-4 flex items-center gap-6 text-[11px] uppercase tracking-[0.2em] text-ink">
               <a href="/shop" className="transition-opacity hover:opacity-60">
